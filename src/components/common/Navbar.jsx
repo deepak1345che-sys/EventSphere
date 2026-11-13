@@ -1,6 +1,6 @@
 import { Bookmark, Calendar, Compass, Menu, PlusCircle, Search, Sparkles, User, X } from "lucide-react"
 import { Link } from "react-router"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { useState } from "react"
 function Navbar() {
 

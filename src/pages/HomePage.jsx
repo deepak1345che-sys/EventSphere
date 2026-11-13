@@ -1,7 +1,9 @@
+import Skeleton from '@/components/common/Skeleton';
+import EventCard from '@/components/events/EventCard';
 import FeaturedCarousel from '@/components/FeaturedCarousel';
 import { Button } from '@/components/ui/button'
 import axios from 'axios';
-import { Briefcase, ChevronRight, Compass, Cpu, Flame, GraduationCap, Music, Palette, Sparkles, Tag, Trophy } from 'lucide-react'
+import { ArrowRight, Briefcase, ChevronRight, Compass, Cpu, Flame, GraduationCap, Music, Palette, Sparkles, Tag, Trophy } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
@@ -31,26 +33,26 @@ function getCategoryIconComponent(category) {
 }
 
 const HUB_CITIES = [
-  {
-    name: "Bengaluru",
-    label: "Tech & Acoustic Nights",
-    img: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "Mumbai",
-    label: "Indie Festivals & Art",
-    img: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "Delhi NCR",
-    label: "Conclaves & Founder Pitch",
-    img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "Pune",
-    label: "Heritage & Code Labs",
-    img: "https://images.unsplash.com/photo-1627916607164-7b20241db935?auto=format&fit=crop&w=500&q=80",
-  },
+    {
+        name: "Bengaluru",
+        label: "Tech & Acoustic Nights",
+        img: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+        name: "Mumbai",
+        label: "Indie Festivals & Art",
+        img: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+        name: "Delhi NCR",
+        label: "Conclaves & Founder Pitch",
+        img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+        name: "Pune",
+        label: "Heritage & Code Labs",
+        img: "https://images.unsplash.com/photo-1627916607164-7b20241db935?auto=format&fit=crop&w=500&q=80",
+    },
 ];
 
 function getCategoryColor(color) {
@@ -89,18 +91,22 @@ function HomePage() {
     const [isLoading, setisLoading] = useState(false);
     const [featuredEvents, setFeaturedEvents] = useState([])
     const [categories, setCategories] = useState([])
+    const [trendingEvents, setTrendingEvents] = useState([])
     useEffect(() => {
         async function loadHomePage() {
             setisLoading(true)
             try {
                 let { data: { data } } = await axios.get("https://eventsphere-server-mfdb.onrender.com/api/events/featured")
-                console.log(data);
                 setFeaturedEvents(data)
             } catch (error) { }
 
             try {
                 let { data: { data } } = await axios.get("https://eventsphere-server-mfdb.onrender.com/api/categories")
                 setCategories(data)
+            } catch (error) { }
+            try {
+                let { data: { data } } = await axios.get("https://eventsphere-server-mfdb.onrender.com/api/events?limit=8&sort=startDate&order=asc")
+                setTrendingEvents(data)
                 console.log(data);
                 setisLoading(false)
             } catch (error) { }
@@ -228,6 +234,41 @@ function HomePage() {
                 }
             </section>
 
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#EBE8DF]">
+                    <div>
+                        <h2 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
+                            Upcoming Gatherings
+                        </h2>
+                        <p className="text-xs text-stone-500">
+                            Verified community events happening in the coming days
+                        </p>
+                    </div>
+                    <Link
+                        to="/explore"
+                        className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-xs rounded-lg font-medium border border-[#CCC8BA] bg-transparent hover:bg-[#F2F1EC] text-[#222]"
+                    >
+                        <span>View All Events</span>
+                        <span><ArrowRight /></span>
+                    </Link>
+                </div>
+
+                {isLoading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[...Array(8)].map((_, i) => (
+                            <Skeleton key={i} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {trendingEvents.map((e) => (
+                            <EventCard key={e._id} event={e} />
+                        ))}
+                    </div>
+                )}
+            </section>
+
+
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
                 <div>
                     <h2 className="text-xl font-bold text-stone-900 tracking-tight">Explore by Community Hub</h2>
@@ -235,29 +276,31 @@ function HomePage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                {
-                    HUB_CITIES.map((c) => {
-                       return <Link
-                        to="/explore"
-                        className="group relative rounded-2xl overflow-hidden aspect-4/3 bg-stone-900 shadow-subtle border border-[#EBE8DF]"
-                    >
-                        <img
-                            src={c.img}
-                            alt={c.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75"
-                        />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 text-white">
-                            <div className="flex items-center gap-1.5 text-orange-400 text-xs font-semibold">
-                                <span>📍</span>
-                                <span>{c.name}</span>
-                            </div>
-                            <p className="text-xs text-stone-300 font-medium mt-0.5">{c.label}</p>
-                        </div>
-                    </Link>
-                    })
-                }
+
+                    {
+                        HUB_CITIES.map((c, i) => {
+
+                            return <Link
+                                key={i}
+                                to="/explore"
+                                className="group relative rounded-2xl overflow-hidden aspect-4/3 bg-stone-900 shadow-subtle border border-[#EBE8DF]"
+                            >
+                                <img
+                                    src={c.img}
+                                    alt={c.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75"
+                                />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
+                                <div className="absolute bottom-4 left-4 right-4 text-white">
+                                    <div className="flex items-center gap-1.5 text-orange-400 text-xs font-semibold">
+                                        <span>📍</span>
+                                        <span>{c.name}</span>
+                                    </div>
+                                    <p className="text-xs text-stone-300 font-medium mt-0.5">{c.label}</p>
+                                </div>
+                            </Link>
+                        })
+                    }
 
                 </div>
             </section>
