@@ -58,7 +58,7 @@ function getCategoryColor(color) {
         },
     ];
 
-    return  colors[color % colors.length]
+    return colors[color % colors.length]
 
 }
 
@@ -203,6 +203,37 @@ function HomePage() {
 
                     </div>
                 }
+            </section>
+
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="bg-[#1C1B18] text-white rounded-3xl p-8 sm:p-12 border border-[#33312B] flex flex-col lg:flex-row items-center justify-between gap-8">
+                    <div className="max-w-xl space-y-3">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#FF8A65]">
+                            Empowering Community Hosts
+                        </span>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                            Host your next summit, workshop or indie showcase on EventSphere.
+                        </h2>
+                        <p className="text-sm text-stone-300 leading-relaxed">
+                            Every registered user can organize events. Enjoy seamless ticketing, automatic calendar syncing, verified attendee reviews, and real-time dashboard analytics.
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                        <Link
+                            to="/create-event"
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold px-5 py-2.5 text-base rounded-xl bg-[#E65100] text-white hover:bg-[#D84315] w-full sm:w-auto shadow-lg"
+                        >
+                            Create Event Now
+                        </Link>
+                        <Link
+                            to="/profile"
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold px-5 py-2.5 text-base rounded-xl w-full sm:w-auto bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                        >
+                            Organizer Portal
+                        </Link>
+                    </div>
+                </div>
             </section>
 
         </div>
