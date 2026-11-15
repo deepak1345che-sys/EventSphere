@@ -37,8 +37,10 @@ export function getDaysRemaining(startDate) {
     }
     
     return formatDistanceToNow(eventDate , {addSuffix : true})
-    
+}
 
-
-
+export function getDays(createdDate){
+    if (!createdDate) return;
+    const date = parseISO(createdDate)
+    return formatDistanceToNow(date,{addSuffix : true})
 }

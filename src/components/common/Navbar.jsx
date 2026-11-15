@@ -1,11 +1,11 @@
 import { Bookmark, Calendar, Compass, Menu, PlusCircle, Search, Sparkles, User, X } from "lucide-react"
-import { Link } from "react-router"
-import { Button } from "../ui/button"
+import { Link } from "react-router";
 import { useState } from "react"
+import { Button } from "../ui/button";
 function Navbar() {
 
   const [isMobileMenuopen, setisMobileMenuopen] = useState(false);
-
+// 
   return (
     <div className="sticky top-0 z-40 w-full bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#EBE8DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-18">
@@ -101,10 +101,10 @@ function Navbar() {
               <Search className="w-5 h-5" />
             </button>
           </Link>
-          <button onClick={() => setisMobileMenuopen((prev) => !prev)}
-            className="p-2 rounded-xl text-stone-700 hover:bg-black/5">
+          <Button onClick={() => setisMobileMenuopen((prev) => !prev)}
+            className="p-2 rounded-xl text-stone-700 hover:bg-black/5 ">
             {isMobileMenuopen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          </Button>
         </div>
 
 

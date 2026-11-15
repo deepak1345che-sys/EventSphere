@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice , formatEventDate} from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 function FeaturedCarousel({ events }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
